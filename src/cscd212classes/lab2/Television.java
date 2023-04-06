@@ -11,9 +11,9 @@ public class Television implements Comparable<Television>{
     private final int screenSize;
     private final boolean smart;
 
-    Television(final String model, final boolean smart, final int screenSize, final int resolution, final String make){
+    public Television(final String model, final boolean smart, final int screenSize, final int resolution, final String make){
         if(model == null || screenSize<32 || resolution<720 || make == null)
-            throw new IllegalArgumentException("Illegal input");
+            throw new IllegalArgumentException("Invalid parameter in constructor");
         this.model = model;
         this.smart = smart;
         this.screenSize = screenSize;
@@ -23,7 +23,9 @@ public class Television implements Comparable<Television>{
             this.fourk = true;
     }
 
-    Television(final String make, final String model, final boolean smart, final int screenSize, final int resolution){
+    public Television(final String make, final String model, final boolean smart, final int screenSize, final int resolution){
+        if(model == null || screenSize<32 || resolution<720 || make == null)
+            throw new IllegalArgumentException("Invalid parameter in constructor");
         this.model = model;
         this.smart = smart;
         this.screenSize = screenSize;
@@ -47,13 +49,19 @@ public class Television implements Comparable<Television>{
     }
 
     public String toString(){
-        if(smart == true)
-            return getMake()+"-"+getModel()+", "+getScreenSize()+" inch smart tv with 4k resolution";
+        if(smart == true && fourk==true)
+            return getMake()+"-"+getModel()+", "+getScreenSize()+" inch smart tv with 4K resolution";
+        if(smart == true && fourk==false)
+            return getMake()+"-"+getModel()+", "+getScreenSize()+" inch smart tv with "+getResolution()+" resolution";
+        if(smart == false && fourk==true)
+            return getMake()+"-"+getModel()+", "+getScreenSize()+" inch tv with 4K resolution";
         else
             return getMake()+"-"+getModel()+", "+getScreenSize()+" inch tv with "+getResolution()+" resolution";
     }
     @Override
     public int compareTo(Television o) {
+        if(o==null)
+            throw new IllegalArgumentException("null parameter in the compareTo method");
         if(this.make.equals(o.make)) {
             if (this.model.equals(o.model))
                 return Integer.compare(this.screenSize, o.screenSize);
@@ -73,6 +81,6 @@ public class Television implements Comparable<Television>{
 
     @Override
     public int hashCode() {
-        return Objects.hash(fourk, make, model, resolution, screenSize, smart);
+        return this.make.hashCode()+this.model.hashCode()+this.resolution+Boolean.hashCode(this.smart)+this.screenSize+Boolean.hashCode(this.fourk);
     }
 }

@@ -5,7 +5,6 @@ import cscd212comparators.lab2.TelevisionModelScreenSizeComparator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-
 import java.util.Comparator;
 
 import static org.junit.jupiter.api.Assertions.*;
