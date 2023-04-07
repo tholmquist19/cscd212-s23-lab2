@@ -11,7 +11,8 @@ public class Television implements Comparable<Television>{
     private final int screenSize;
     private final boolean smart;
 
-    public Television(final String model, final boolean smart, final int screenSize, final int resolution, final String make){
+    public Television(final String model, final boolean smart, final int screenSize, final int resolution,
+                      final String make){
         if(model == null || screenSize<32 || resolution<720 || make == null)
             throw new IllegalArgumentException("Invalid parameter in constructor");
         this.model = model;
@@ -23,7 +24,8 @@ public class Television implements Comparable<Television>{
             this.fourk = true;
     }
 
-    public Television(final String make, final String model, final boolean smart, final int screenSize, final int resolution){
+    public Television(final String make, final String model, final boolean smart, final int screenSize,
+                      final int resolution){
         if(model == null || screenSize<32 || resolution<720 || make == null)
             throw new IllegalArgumentException("Invalid parameter in constructor");
         this.model = model;
@@ -64,7 +66,7 @@ public class Television implements Comparable<Television>{
             throw new IllegalArgumentException("null parameter in the compareTo method");
         if(this.make.equals(o.make)) {
             if (this.model.equals(o.model))
-                return Integer.compare(this.screenSize, o.screenSize);
+                return this.screenSize-o.screenSize;
             else
                 return CharSequence.compare(this.model, o.model);
         }
@@ -76,11 +78,13 @@ public class Television implements Comparable<Television>{
         if (this == o) return true;
         if (!(o instanceof Television)) return false;
         Television that = (Television) o;
-        return fourk == that.fourk && resolution == that.resolution && screenSize == that.screenSize && smart == that.smart && make.equals(that.make) && model.equals(that.model);
+        return fourk == that.fourk && resolution == that.resolution && screenSize ==
+                that.screenSize && smart == that.smart && make.equals(that.make) && model.equals(that.model);
     }
 
     @Override
     public int hashCode() {
-        return this.make.hashCode()+this.model.hashCode()+this.resolution+Boolean.hashCode(this.smart)+this.screenSize+Boolean.hashCode(this.fourk);
+        return this.make.hashCode()+this.model.hashCode()+
+                this.resolution+Boolean.hashCode(this.smart)+Boolean.hashCode(this.fourk);
     }
 }
